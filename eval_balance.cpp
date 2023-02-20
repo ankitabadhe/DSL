@@ -51,7 +51,7 @@ bool checkBalancing(string expr)
 int main()
 {
 	string expr;
-	cout<<"Enter a string \n";
+	cout<<"Enter a string \n"; 
 	cin>>expr;
 
 	if (checkBalancing(expr))

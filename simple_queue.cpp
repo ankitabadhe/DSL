@@ -4,12 +4,12 @@ using namespace std;
 struct node
 {
     int data;
-    struct node *next;
+    node *next;
 };
 
-struct node *front = NULL;
-struct node *rear = NULL;
-struct node *temp;
+node *front = NULL;
+node *rear = NULL;
+node *temp;
 
 void Insert(int val)
 {
@@ -47,13 +47,13 @@ void Delete()
         {
             temp = temp -> next;
             cout<<front->data<<endl;
-            free(front);
+            delete(front);
             front = temp;
         }
         else
         {
             cout<<"Element deleted from queue is: "<<front->data<<"\n"<<endl;
-            free(front);
+            delete(front);
             front = NULL;
             rear = NULL;
 

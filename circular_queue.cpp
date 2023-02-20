@@ -3,11 +3,10 @@ using namespace std;
 struct Node
 {
     int data;
-    struct Node *next;
+    Node *next;
 };
 Node *front = NULL;
 Node *rear = NULL;
-
 void enqueue(int val)
 {
     if(front==NULL || rear==NULL)
@@ -18,8 +17,7 @@ void enqueue(int val)
         newNode->data = val;
         newNode->next = NULL;
 
-        front = newNode;
-        rear = newNode;
+        rear = front = newNode;
     }
     else
     {
@@ -33,9 +31,7 @@ void enqueue(int val)
         newNode->next = front;
         rear = newNode;
     }
-
 }
-
 void dequeue()
 {
 
@@ -52,7 +48,6 @@ void dequeue()
         delete(n);
     }
 }
-
 void display()
 {
     Node *ptr;
@@ -74,7 +69,6 @@ void display()
         while(ptr != rear->next);
     }
 }
-
 int main()
 {
     int choice;
@@ -117,7 +111,6 @@ int main()
         }
     }
     while(choice!=4);
-
     return 0;
 }
 

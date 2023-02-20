@@ -1,244 +1,153 @@
 #include <iostream>
+
 using namespace std;
-class Node
-{
+
+struct Node {
 public:
     int data;
-    Node *next;
-    Node *prev;
-
-    Node(int d)
-    {
-        data = d;
+    Node* next;
+    Node* prev;
+    Node() {
         next = NULL;
         prev = NULL;
     }
 };
 
-Node *newNode(int x)
-{
-    Node *node = new Node(x);
-    return node;
-}
-Node *front = NULL;
-Node *rear = NULL;
-int Size = 0;
-void insertFront(int x)
-{
-    Node *node = newNode(x);
-    if (front == NULL)
-    {
-        front = rear = node;
-    }
-    else
-    {
-        node->next = front;
-        front->prev = node;
-        front = node;
-    }
-    Size++;
-}
-void insertEnd(int x)
-{
-    Node *node = newNode(x);
-    if (rear == NULL)
-    {
-        front = rear = node;
-    }
-    else
-    {
-        node->prev = rear;
-        rear->next = node;
-        rear = node;
-    }
-    Size++;
-}
-void deleteFront()
-{
-    if (front == NULL)
-    {
-        cout << "DeQueue is empty" << endl;
-        return;
-    }
-    if (front == rear)
-    {
-        front = rear = NULL;
-    }
-    else
-    {
-        Node *temp = front;
-        front = front->next;
-        front->prev = NULL;
-        delete (temp);
-    }
-    Size--;
-}
-void deleteEnd()
-{
-    if (rear == NULL)
-    {
-        cout << "DeQueue is empty" << endl;
-        return;
-    }
-    if (front == rear)
-    {
-        front = rear = NULL;
-    }
-    else
-    {
-        Node *temp = rear;
-        rear = rear->prev;
-        rear->next = NULL;
-        delete (temp);
-    }
-    Size--;
-}
-int getFront()
-{
-    if (front != NULL)
-    {
-        return front->data;
-    }
-    return -1;
-}
-int getEnd()
-{
-    if (rear != NULL)
-    {
-        return rear->data;
-    }
-    return -1;
-}
-int size()
-{
-    return Size;
-}
-bool isEmpty()
-{
-    if (front == NULL)
-    {
-        return true;
-    }
-    return false;
-}
-void erase()
-{
-    rear = NULL;
-    while (front != NULL)
-    {
-        Node *temp = front;
-        front->prev = NULL;
-        front = front->next;
-        delete (temp);
-    }
-    Size = 0;
-}
-void display()
-{
+class Deque {
+public:
+    Node* head;
+    Node* tail;
 
-    Node *temp = front;
-    if (front == NULL)
-    {
-        cout << "Queue is empty" << endl;
+    Deque() {
+        head = NULL;
+        tail = NULL;
     }
-    else
-    {
-        cout << "Queue is: \n";
-        while (temp != NULL)
-        {
-            cout << temp->data << "  ";
-            temp = temp->next;
+
+    void insertFront(int val) {
+        Node* newNode = new Node();
+        newNode->data=val;
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
         }
-        cout << endl;
+        else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+        cout << val << " inserted at front" << endl;
     }
-}
 
-int main()
-{
+    void insertRear(int val) {
+        Node* newNode = new Node();
+         newNode->data=val;
 
+        if (tail == NULL) {
+            head = newNode;
+            tail = newNode;
+        }
+        else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+        cout << val << " inserted at rear" << endl;
+    }
 
-    int choice;
-    int val;
-    int n;
-    cout<<"QUEUE OPERATIONS USING DOUBLY LINKED LIST"<<endl;
-    cout<<"\n----------------------------------------------"<<endl;
-    cout << "\n\n1.InsertFront\n2.InsertEnd\n3.DeleteFront\n4.DeleteEnd\n5.GetFront\n6.GetEnd\n7.IsEmpty\n8.SizeOfQueue\n9.Erase\n10.Display\n11.Exit";
-    do
-    {
-        cout<<"\nEnter the Choice: \n"<<endl;
-        cin>>choice;
-        switch(choice)
-
-        {
-        case 1:
-            cout << "\nEnter the element to be inserted at Front: ";
-            cin >> n;
-            insertFront(n);
-            break;
-        case 2:
-            cout << "\nEnter the element to be inserted at End : ";
-            cin >> n;
-            insertEnd(n);
-            break;
-        case 3:
-            cout << "\nDelete at Front  ";
-            deleteFront();
-            break;
-        case 4:
-            cout << "\nDelete at End ";
-            deleteEnd();
-            break;
-        case 5:
-            n = getFront();
-            if (n == -1)
-            {
-                cout << "\nDeQueue is empty" << endl;
+    void deleteFront() {
+        if (head == NULL) {
+            cout << "Deque is empty" << endl;
+        }
+        else {
+            Node* temp = head;
+            head = head->next;
+            if (head != NULL) {
+                head->prev = NULL;
             }
-            else
-            {
-                cout << "\nFront element is : " << getFront();
+            else {
+                tail = NULL;
             }
-            break;
-        case 6:
-            n = getFront();
-            if (n == -1)
-            {
-                cout << "DeQueue is empty" << endl;
-            }
-            else
-            {
-                cout << "\nEnd element is : " << getEnd();
-            }
-            break;
-        case 7:
-            if (isEmpty())
-            {
-                cout << "\nDeQueue is empty";
-            }
-            else
-            {
-                cout << "\nDeQueue is not empty";
-            }
-            break;
-        case 8:
-            cout << "\nSize of DeQueue is : " << size();
-            break;
-        case 9:
-            erase();
-            break;
-        case 10:
-            display();
-            break;
-        case 11:
-            exit(0);
-            break;
-        default:
-            cout << "\nSelect Proper Option" << endl;
+            cout << temp->data << " deleted from front" << endl;
+            delete temp;
         }
     }
 
-        while(choice!=11);
-
-        return 0;
+    void deleteRear() {
+        if (tail == NULL) {
+            cout << "Deque is empty" << endl;
+        }
+        else {
+            Node* temp = tail;
+            tail = tail->prev;
+            if (tail != NULL) {
+                tail->next = NULL;
+            }
+            else {
+                head = NULL;
+            }
+            cout << temp->data << " deleted from rear" << endl;
+            delete temp;
+        }
     }
 
+    void display() {
+        if (head == NULL) {
+            cout << "Deque is empty" << endl;
+        }
+        else {
+            Node* curr = head;
+            cout << "Deque elements: ";
+            while (curr != NULL) {
+                cout << curr->data << " ";
+                curr = curr->next;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Deque dq;
+    int choice, value;
+    do {
+        cout << "----------Double Ended Queue----------" << endl;
+        cout << "1. Insert element at front" << endl;
+        cout << "2. Insert element at rear" << endl;
+        cout << "3. Delete element from front" << endl;
+        cout << "4. Delete element from rear" << endl;
+        cout << "5. Display elements" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter the value to be inserted at front: ";
+                cin >> value;
+                dq.insertFront(value);
+                break;
+            case 2:
+                cout << "Enter the value to be inserted at rear: ";
+                cin >> value;
+                dq.insertRear(value);
+                break;
+            case 3:
+                dq.deleteFront();
+                break;
+            case 4:
+                dq.deleteRear();
+                break;
+            case 5:
+                dq.display();
+                break;
+            case 6:
+                cout<<"Exiting";
+                break;
+            default:
+                cout<<"VAlid";
+
+        }
+    }
+
+    while(choice!=6);
+    return 0;
+}
